@@ -36,7 +36,7 @@ class CrudRepository {
     return response;
   }
 
-  async update(data) {
+  async update(id,data) {
     // data -> {col: val ,......}
 
     const response = await this.model.update(data, {
@@ -44,6 +44,7 @@ class CrudRepository {
         id: id,
       },
     });
+    console.log("response");
     return response;
   }
 }

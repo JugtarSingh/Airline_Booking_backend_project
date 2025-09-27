@@ -13,6 +13,12 @@ router.get('/',
    
 router.get('/:id',
     AirplaneController.getAirplane);    
-    
+
+/** Delete 
+ * /:id
+ * req.body: {}
+*/
+router.delete('/:id',
+    AirplaneController.destroyAirplane);
 
 module.exports= router

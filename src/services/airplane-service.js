@@ -1,9 +1,12 @@
 const { StatusCodes } = require('http-status-codes');
 const  {AirplaneRepository }=require('../repositories');
-const airplaneRepository =new AirplaneRepository();
 const AppError = require('../utils/errors/app-error');
 
-async function createAirplane(data){
+// Here we are create the object so that we call the function
+const airplaneRepository = new AirplaneRepository();
+
+
+async function createAirplane(data){ 
     try {
         const airplane = await airplaneRepository.create(data);
         return airplane;

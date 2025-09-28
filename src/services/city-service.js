@@ -23,6 +23,33 @@ async function createCity(data){
     }
 }
 
+async function destroyCity(data){
+    try {
+        const response = await cityRepository.destroy(data);
+        return response;
+    } catch (error) {
+        if(error.statusCodes == StatusCodes.NOT_FOUND){
+            throw new AppError('Unable to find the city you requested to delete',StatusCodes.NOT_FOUND);
+        }
+        throw new AppError ('Cannot delete the city',StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
+
+async function updateCity(id,data){
+    // data ->{key : value ......}
+    try {
+        const response = await cityRepository.update(id,data);
+        return response;
+    } catch (error) {
+         if(error.statusCodes == StatusCodes.NOT_FOUND){
+            throw new AppError ('Unable to find the city you requested to update',StatusCodes.BAD_REQUEST);
+         }
+         throw new AppError('Cannot update the city',StatusCodes.INTERNAL_SERVER_ERROR);      
+    }
+}
+
 module.exports = {
-    createCity
+    createCity,
+    destroyCity,
+    updateCity
 }

@@ -44,7 +44,9 @@ class CrudRepository {
         id: id,
       },
     });
-    console.log("response");
+    if(!response[0]){
+      throw new AppError('Unable to find the resourse',StatusCodes.NOT_FOUND);
+    }
     return response;
   }
 }

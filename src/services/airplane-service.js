@@ -61,6 +61,9 @@ async function updateAirplane(id,data){
         return response;
 
     } catch (error) {
+        if(error.statusCodes == StatusCodes.NOT_FOUND){
+            throw new AppError('Cannot find the Airplane you requested to update',StatusCodes.BAD_REQUEST);
+        }
         throw new AppError("Cannot update the airplane",StatusCodes.INTERNAL_SERVER_ERROR);
         
     }

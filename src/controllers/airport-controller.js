@@ -1,10 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const {AirportService} = require('../services');
 const { SuccessResponse , ErrorResponse } = require('../utils/common');
-const AppError = require('../utils/errors/app-error');
-
-
-
 
 async function createAirport(req,res){
     try {
@@ -17,7 +13,7 @@ async function createAirport(req,res){
         })
         SuccessResponse.data = airport;
         res
-        .status(StatusCodes.OK)
+        .status(StatusCodes.CREATED)
         .json(SuccessResponse);
     } catch (error) {
         ErrorResponse.error = error;

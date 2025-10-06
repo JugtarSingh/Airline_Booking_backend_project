@@ -2,7 +2,7 @@ const express = require('express');
 
 const { AirportController } = require('../../controllers');
 const { AirportMiddlewares } = require('../../middlewares');
-const router = express();
+const router = express.Router();
 
 /**
  * POST : /airports 

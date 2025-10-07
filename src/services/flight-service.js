@@ -1,5 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
-
+const { Op } = require ('sequelize');
 const { FlightRepository } = require('../repositories');
 const AppError = require('../utils/errors/app-error');
 
@@ -21,7 +21,48 @@ async function createFlight(data) {
         throw new AppError('Cannot create a new Flight object', StatusCodes.INTERNAL_SERVER_ERROR);
     }
 }
+
+async function getAllFlights(query){
+        const endingTripTime = ' 23:59:00'
+        let customfliters = {}
+        let  sortFliter = [];
+        if (query.trips){
+            [departureAirportId , arrivalAirportId] = query.trips.split("-");
+            customfliters.departureAirportId = departureAirportId;
+            customfliters.arrivalAirportId = arrivalAirportId;
+        }
+        if(query.price){
+            [minPrice , maxPrice ] = query.price.split("-");
+            customfliters.price = {
+                [Op.between] : [minPrice , ((maxPrice == undefined)? 20000 : maxPrice)]
+            }
+        }
+        if(query.travellers){
+            customfliters.totalSeats = {
+                [Op.gte] : query.travellers
+            }
+        }
+        if(query.tripDate){
+            customfliters.departureTime = {
+                [Op.between] : [query.tripDate , query.tripDate + endingTripTime]
+            }
+        }
+        if(query.sort){
+            const params = query.sort.split(",");
+            const sortFliters = params.map((param)=> param.split("_") )
+            sortFliter = sortFliters;
+        }
+        console.log(customfliters , sortFliter);
+        try {
+        const flights = await flightRepository.getAllFlights(customfliters , sortFliter);
+        console.log(flights);
+        return flights;
+    } catch (error) {
+        throw new AppError('Cannot fetch all flights',StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+}
  
 module.exports = {
     createFlight,
+    getAllFlights
 }

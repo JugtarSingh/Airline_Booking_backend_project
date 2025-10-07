@@ -8,11 +8,9 @@ class CrudRepository {
 
   async create(data) {
     try {
-      console.log("data in crud repo",data);
       const response = await this.model.create(data);
       return response;
     } catch (error) {
-      console.log("error in crud repo",error);
       logger.error("Error creating resource:", error);
       throw new AppError("Error creating resource", StatusCodes.INTERNAL_SERVER_ERROR);
     }

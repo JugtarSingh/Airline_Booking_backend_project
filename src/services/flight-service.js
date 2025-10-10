@@ -52,12 +52,11 @@ async function getAllFlights(query){
             const sortFliters = params.map((param)=> param.split("_") )
             sortFliter = sortFliters;
         }
-        console.log(customfliters , sortFliter);
         try {
         const flights = await flightRepository.getAllFlights(customfliters , sortFliter);
-        console.log(flights);
         return flights;
     } catch (error) {
+        console.log(error);
         throw new AppError('Cannot fetch all flights',StatusCodes.INTERNAL_SERVER_ERROR);
     }
 }

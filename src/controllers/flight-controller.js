@@ -57,7 +57,43 @@ async function getAllFlights(req,res){
     }
 }
 
+async function getFlight(req,res){
+    try {
+        const flight = await FlightService.getFlight(req.params.id);
+        SuccessResponse.data= flight;
+        res
+        .status(StatusCodes.OK)
+        .json(SuccessResponse);
+    } catch (error) {
+        ErrorResponse.error = error;
+        res
+        .status(error.statusCodes)
+        .json(ErrorResponse);
+    }
+}
+async function updateSeats(req,res){
+    try {
+        const response = await FlightService.updateSeats({
+            flightId: req.params.id,
+            seats: req.body.seats,
+            desc: req.body.desc
+        })
+        SuccessResponse.data = response;
+        res
+        .status(StatusCodes.OK)
+        .json(SuccessResponse);
+
+    } catch (error) {
+        ErrorResponse.error = error;
+        res
+        .status(error.statusCodes)
+        .json(ErrorResponse);
+    }
+}
+
 module.exports = {
     createFlight,
-    getAllFlights
+    getAllFlights,
+    getFlight,
+    updateSeats
 }

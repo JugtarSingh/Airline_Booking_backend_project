@@ -76,7 +76,7 @@ async function getFlight(id){
 
 async function updateSeats(data){
     try {
-        const response = await flightRepository.updateRemainingSeats(data.flightId , data.seats , data.desc);
+        const response = await flightRepository.updateRemainingSeats(data.flightId , data.seats , data.dec);
         return response;
     } catch (error) {
         console.log(error);
